@@ -1,0 +1,37 @@
+﻿@model List<YemekTarifleri.Models.Tarif>
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<ApplicationUser> SignInManager
+
+@{
+    ViewData["Title"] = "Tarifler";
+    var user = await UserManager.GetUserAsync(User);
+    var isAdmin = SignInManager.IsSignedIn(User) && await UserManager.IsInRoleAsync(user, "Admin");
+}
+
+<h2>🍽 Tarifler</h2>
+
+<div class="row">
+    @foreach (var tarif in Model)
+    {
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <img src="@tarif.ResimYolu" class="card-img-top" alt="@tarif.Baslik" style="height:200px;object-fit:cover;">
+                <div class="card-body">
+                    <h5 class="card-title">@tarif.Baslik</h5>
+                    <p class="card-text">
+                        @tarif.Icerik.Substring(0, Math.Min(tarif.Icerik.Length, 100))...
+                    </p>
+
+                    <a asp-controller="Tarif" asp-action="Details" asp-route-id="@tarif.Id" class="btn btn-primary btn-sm">Detay</a>
+
+                    @if (isAdmin)
+                    {
+                        <a asp-controller="Tarif" asp-action="Edit" asp-route-id="@tarif.Id" class="btn btn-warning btn-sm">Düzenle</a>
+                        <a asp-controller="Tarif" asp-action="Delete" asp-route-id="@tarif.Id" class="btn btn-danger btn-sm">Sil</a>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>

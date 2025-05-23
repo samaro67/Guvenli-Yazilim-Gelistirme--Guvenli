@@ -1,0 +1,17 @@
+﻿@model YemekTarifleri.Models.Tarif
+
+@{
+    ViewData["Title"] = "Tarif Sil";
+}
+
+<h2>🗑 Tarifi Sil</h2>
+
+<div class="alert alert-warning">
+    <strong>@Model.Baslik</strong> isimli tarifi silmek istediğine emin misin?
+</div>
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Evet, Sil</button>
+    <a asp-action="Index" class="btn btn-secondary">Vazgeç</a>
+</form>

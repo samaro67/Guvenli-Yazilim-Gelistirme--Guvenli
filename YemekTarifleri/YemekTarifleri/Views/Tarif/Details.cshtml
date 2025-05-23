@@ -1,0 +1,18 @@
+﻿@model YemekTarifleri.Models.Tarif
+
+@{
+    ViewData["Title"] = "Tarif Detay";
+}
+
+<h2>@Model.Baslik</h2>
+
+<img src="@Model.ResimYolu" class="img-fluid mb-3" style="max-height: 400px; object-fit: cover;" alt="@Model.Baslik" />
+
+<p><strong>Eklenme Tarihi:</strong> @Model.EklenmeTarihi.ToShortDateString()</p>
+
+<div>
+    <p>@Model.Icerik</p>
+</div>
+
+<a asp-action="Index" class="btn btn-secondary mt-3">← Geri Dön</a>
+

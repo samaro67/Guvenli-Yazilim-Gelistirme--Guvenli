@@ -1,0 +1,50 @@
+﻿@model List<YemekTarifleri.Models.ApplicationUser>
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Kullanıcı Yönetimi";
+}
+
+<h2>Kullanıcı Yönetimi</h2>
+
+@if (TempData["Mesaj"] != null)
+{
+    <div class="alert alert-success">@TempData["Mesaj"]</div>
+}
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Kullanıcı Adı</th>
+            <th>Email</th>
+            <th>Mevcut Rol</th>
+            <th>Rol Ata</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            var roles = await UserManager.GetRolesAsync(user);
+            var rol = roles.FirstOrDefault() ?? "-";
+
+            <tr>
+                <td>@user.UserName</td>
+                <td>@user.Email</td>
+                <td>@rol</td>
+                <td>
+                    <form asp-action="AssignRole" asp-controller="AdminPanel" method="post" class="d-flex">
+                        <input type="hidden" name="userId" value="@user.Id" />
+                        <select name="role" class="form-select me-2" required>
+                            <option value="">Seç...</option>
+                            <option value="Admin">Admin</option>
+                            <option value="Uye">Uye</option>
+                            <option value="Misafir">Misafir</option>
+                        </select>
+                        <button type="submit" class="btn btn-sm btn-primary">Ata</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
